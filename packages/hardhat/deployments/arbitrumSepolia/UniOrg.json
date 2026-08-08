@@ -1,0 +1,501 @@
+{
+  "address": "0xf94bbddb281e784e330ac293edf09a1365ac2df1",
+  "abi": [
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "credentialId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "orgId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "metadataURI",
+          "type": "string"
+        }
+      ],
+      "name": "CredentialIssued",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "credentialId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "orgId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        }
+      ],
+      "name": "CredentialRevoked",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "orgId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "issuer",
+          "type": "address"
+        }
+      ],
+      "name": "OrganizationCreated",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        }
+      ],
+      "name": "createOrganization",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "orgId",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "issuer",
+          "type": "address"
+        }
+      ],
+      "name": "getIssuerOrgs",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "orgId",
+          "type": "uint256"
+        }
+      ],
+      "name": "getOrganization",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "issuer",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "createdAt",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct UniOrg.Organization",
+          "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        }
+      ],
+      "name": "getRecipientCredentials",
+      "outputs": [
+        {
+          "internalType": "uint256[]",
+          "name": "",
+          "type": "uint256[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "orgId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "recipient",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "metadataURI",
+          "type": "string"
+        }
+      ],
+      "name": "issueCredential",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "credentialId",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "credentialId",
+          "type": "uint256"
+        }
+      ],
+      "name": "revokeCredential",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "credentialId",
+          "type": "uint256"
+        }
+      ],
+      "name": "verifyCredential",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "contractName": "UniOrg",
+  "sourceName": "contracts/UniOrg.sol",
+  "bytecode": "0x608060405260015f55600180553480156016575f5ffd5b50610d51806100245f395ff3fe608060405234801561000f575f5ffd5b506004361061007a575f3560e01c80636427acca116100585780636427acca146100dc57806369ea82c2146100fd578063ada5d93314610110578063f2a91b1c14610123575f5ffd5b80630ac52c0d1461007e5780631b87278d146100a75780634526f690146100bc575b5f5ffd5b61009161008c36600461098d565b610146565b60405161009e91906109ad565b60405180910390f35b6100ba6100b53660046109ef565b6101af565b005b6100cf6100ca3660046109ef565b61022f565b60405161009e9190610a06565b6100ef6100ea366004610ab0565b610368565b60405190815260200161009e565b6100ef61010b366004610aef565b6104d1565b61009161011e36600461098d565b610790565b6101366101313660046109ef565b6107f7565b604051901515815260200161009e565b6001600160a01b0381165f908152600460209081526040918290208054835181840281018401909452808452606093928301828280156101a357602002820191905f5260205f20905b81548152602001906001019080831161018f575b50505050509050919050565b5f811180156101bf575060015481105b6102105760405162461bcd60e51b815260206004820152601960248201527f43726564656e7469616c20646f6573206e6f742065786973740000000000000060448201526064015b60405180910390fd5b5f8181526003602052604090206001015461022b818361082c565b5050565b61026060405180608001604052805f8152602001606081526020015f6001600160a01b031681526020015f81525090565b815f8111801561027057505f5481105b61028c5760405162461bcd60e51b815260040161020790610b45565b60025f8481526020019081526020015f206040518060800160405290815f82015481526020016001820180546102c190610b7c565b80601f01602080910402602001604051908101604052809291908181526020018280546102ed90610b7c565b80156103385780601f1061030f57610100808354040283529160200191610338565b820191905f5260205f20905b81548152906001019060200180831161031b57829003601f168201915b505050918352505060028201546001600160a01b0316602082015260039091015460409091015291505b50919050565b5f816103ad5760405162461bcd60e51b81526020600482015260146024820152734e616d652063616e6e6f7420626520656d70747960601b6044820152606401610207565b5f805490806103bb83610bae565b919050559050604051806080016040528082815260200184848080601f0160208091040260200160405190810160405280939291908181526020018383808284375f920182905250938552505033602080850191909152426040948501528583526002815292909120835181559183015160018301915061043c9082610c32565b506040828101516002830180546001600160a01b0319166001600160a01b03909216919091179055606090920151600390910155335f818152600460209081528382208054600181018255908352912001839055905182907f922a324c596e3ff0b7475d8ad6ee962a1313f05ff06e1437d9f5c47b6a9bb924906104c39087908790610ced565b60405180910390a392915050565b5f845f811180156104e257505f5481105b6104fe5760405162461bcd60e51b815260040161020790610b45565b5f868152600260208190526040909120015486906001600160a01b031633146105635760405162461bcd60e51b81526020600482015260176024820152762737ba1037b933b0b734bd30ba34b7b71034b9b9bab2b960491b6044820152606401610207565b6001600160a01b0386166105ad5760405162461bcd60e51b8152602060048201526011602482015270125b9d985b1a59081c9958da5c1a595b9d607a1b6044820152606401610207565b836105fa5760405162461bcd60e51b815260206004820152601860248201527f4d657461646174612063616e6e6f7420626520656d70747900000000000000006044820152606401610207565b60018054905f61060983610bae565b9190505592506040518060e00160405280848152602001888152602001876001600160a01b0316815260200186868080601f0160208091040260200160405190810160405280939291908181526020018383808284375f920182905250938552505033602080850191909152426040808601919091526060948501849052888452600380835293819020865181559186015160018301558501516002820180546001600160a01b0319166001600160a01b0390921691909117905592840151918301916106d7915082610c32565b5060808201516004820180546001600160a01b0319166001600160a01b0392831617905560a083015160058084019190915560c0909301516006909201805460ff19169215159290921790915587165f818152602092835260408082208054600181018255908352939091209092018590559051889085907f1fae16d4757eab1f9dc5bb8ea0ae6b93bddaa38c10b392067bd2047414a438629061077e908a908a90610ced565b60405180910390a45050949350505050565b6001600160a01b0381165f908152600560209081526040918290208054835181840281018401909452808452606093928301828280156101a357602002820191905f5260205f209081548152602001906001019080831161018f5750505050509050919050565b5f81158061080757506001548210155b1561081357505f919050565b505f9081526003602052604090206006015460ff161590565b815f8111801561083c57505f5481105b6108585760405162461bcd60e51b815260040161020790610b45565b5f838152600260208190526040909120015483906001600160a01b031633146108bd5760405162461bcd60e51b81526020600482015260176024820152762737ba1037b933b0b734bd30ba34b7b71034b9b9bab2b960491b6044820152606401610207565b5f838152600360205260409020600681015460ff161561091f5760405162461bcd60e51b815260206004820152601a60248201527f43726564656e7469616c20616c7265616479207265766f6b65640000000000006044820152606401610207565b60068101805460ff1916600117905560028101546040516001600160a01b0390911690869086907f9937c77a4949a575a62b3a88b4f314748cf787baccc6c98fa5c82ab4857d1ac6905f90a45050505050565b80356001600160a01b0381168114610988575f5ffd5b919050565b5f6020828403121561099d575f5ffd5b6109a682610972565b9392505050565b602080825282518282018190525f918401906040840190835b818110156109e45783518352602093840193909201916001016109c6565b509095945050505050565b5f602082840312156109ff575f5ffd5b5035919050565b60208152815160208201525f60208301516080604084015280518060a0850152806020830160c086015e5f60c0828601015260018060a01b0360408601511660608501526060850151608085015260c0601f19601f8301168501019250505092915050565b5f5f83601f840112610a7b575f5ffd5b50813567ffffffffffffffff811115610a92575f5ffd5b602083019150836020828501011115610aa9575f5ffd5b9250929050565b5f5f60208385031215610ac1575f5ffd5b823567ffffffffffffffff811115610ad7575f5ffd5b610ae385828601610a6b565b90969095509350505050565b5f5f5f5f60608587031215610b02575f5ffd5b84359350610b1260208601610972565b9250604085013567ffffffffffffffff811115610b2d575f5ffd5b610b3987828801610a6b565b95989497509550505050565b6020808252601b908201527f4f7267616e697a6174696f6e20646f6573206e6f742065786973740000000000604082015260600190565b600181811c90821680610b9057607f821691505b60208210810361036257634e487b7160e01b5f52602260045260245ffd5b5f60018201610bcb57634e487b7160e01b5f52601160045260245ffd5b5060010190565b634e487b7160e01b5f52604160045260245ffd5b601f821115610c2d57805f5260205f20601f840160051c81016020851015610c0b5750805b601f840160051c820191505b81811015610c2a575f8155600101610c17565b50505b505050565b815167ffffffffffffffff811115610c4c57610c4c610bd2565b610c6081610c5a8454610b7c565b84610be6565b6020601f821160018114610c92575f8315610c7b5750848201515b5f19600385901b1c1916600184901b178455610c2a565b5f84815260208120601f198516915b82811015610cc15787850151825560209485019460019092019101610ca1565b5084821015610cde57868401515f19600387901b60f8161c191681555b50505050600190811b01905550565b60208152816020820152818360408301375f818301604090810191909152601f909201601f1916010191905056fea264697066735822122090a38e652b9f1e39ca2fe5259af6a4070cb926369c1b70742e8cc7edd45eb5da64736f6c634300081e0033",
+  "deployedBytecode": "0x608060405234801561000f575f5ffd5b506004361061007a575f3560e01c80636427acca116100585780636427acca146100dc57806369ea82c2146100fd578063ada5d93314610110578063f2a91b1c14610123575f5ffd5b80630ac52c0d1461007e5780631b87278d146100a75780634526f690146100bc575b5f5ffd5b61009161008c36600461098d565b610146565b60405161009e91906109ad565b60405180910390f35b6100ba6100b53660046109ef565b6101af565b005b6100cf6100ca3660046109ef565b61022f565b60405161009e9190610a06565b6100ef6100ea366004610ab0565b610368565b60405190815260200161009e565b6100ef61010b366004610aef565b6104d1565b61009161011e36600461098d565b610790565b6101366101313660046109ef565b6107f7565b604051901515815260200161009e565b6001600160a01b0381165f908152600460209081526040918290208054835181840281018401909452808452606093928301828280156101a357602002820191905f5260205f20905b81548152602001906001019080831161018f575b50505050509050919050565b5f811180156101bf575060015481105b6102105760405162461bcd60e51b815260206004820152601960248201527f43726564656e7469616c20646f6573206e6f742065786973740000000000000060448201526064015b60405180910390fd5b5f8181526003602052604090206001015461022b818361082c565b5050565b61026060405180608001604052805f8152602001606081526020015f6001600160a01b031681526020015f81525090565b815f8111801561027057505f5481105b61028c5760405162461bcd60e51b815260040161020790610b45565b60025f8481526020019081526020015f206040518060800160405290815f82015481526020016001820180546102c190610b7c565b80601f01602080910402602001604051908101604052809291908181526020018280546102ed90610b7c565b80156103385780601f1061030f57610100808354040283529160200191610338565b820191905f5260205f20905b81548152906001019060200180831161031b57829003601f168201915b505050918352505060028201546001600160a01b0316602082015260039091015460409091015291505b50919050565b5f816103ad5760405162461bcd60e51b81526020600482015260146024820152734e616d652063616e6e6f7420626520656d70747960601b6044820152606401610207565b5f805490806103bb83610bae565b919050559050604051806080016040528082815260200184848080601f0160208091040260200160405190810160405280939291908181526020018383808284375f920182905250938552505033602080850191909152426040948501528583526002815292909120835181559183015160018301915061043c9082610c32565b506040828101516002830180546001600160a01b0319166001600160a01b03909216919091179055606090920151600390910155335f818152600460209081528382208054600181018255908352912001839055905182907f922a324c596e3ff0b7475d8ad6ee962a1313f05ff06e1437d9f5c47b6a9bb924906104c39087908790610ced565b60405180910390a392915050565b5f845f811180156104e257505f5481105b6104fe5760405162461bcd60e51b815260040161020790610b45565b5f868152600260208190526040909120015486906001600160a01b031633146105635760405162461bcd60e51b81526020600482015260176024820152762737ba1037b933b0b734bd30ba34b7b71034b9b9bab2b960491b6044820152606401610207565b6001600160a01b0386166105ad5760405162461bcd60e51b8152602060048201526011602482015270125b9d985b1a59081c9958da5c1a595b9d607a1b6044820152606401610207565b836105fa5760405162461bcd60e51b815260206004820152601860248201527f4d657461646174612063616e6e6f7420626520656d70747900000000000000006044820152606401610207565b60018054905f61060983610bae565b9190505592506040518060e00160405280848152602001888152602001876001600160a01b0316815260200186868080601f0160208091040260200160405190810160405280939291908181526020018383808284375f920182905250938552505033602080850191909152426040808601919091526060948501849052888452600380835293819020865181559186015160018301558501516002820180546001600160a01b0319166001600160a01b0390921691909117905592840151918301916106d7915082610c32565b5060808201516004820180546001600160a01b0319166001600160a01b0392831617905560a083015160058084019190915560c0909301516006909201805460ff19169215159290921790915587165f818152602092835260408082208054600181018255908352939091209092018590559051889085907f1fae16d4757eab1f9dc5bb8ea0ae6b93bddaa38c10b392067bd2047414a438629061077e908a908a90610ced565b60405180910390a45050949350505050565b6001600160a01b0381165f908152600560209081526040918290208054835181840281018401909452808452606093928301828280156101a357602002820191905f5260205f209081548152602001906001019080831161018f5750505050509050919050565b5f81158061080757506001548210155b1561081357505f919050565b505f9081526003602052604090206006015460ff161590565b815f8111801561083c57505f5481105b6108585760405162461bcd60e51b815260040161020790610b45565b5f838152600260208190526040909120015483906001600160a01b031633146108bd5760405162461bcd60e51b81526020600482015260176024820152762737ba1037b933b0b734bd30ba34b7b71034b9b9bab2b960491b6044820152606401610207565b5f838152600360205260409020600681015460ff161561091f5760405162461bcd60e51b815260206004820152601a60248201527f43726564656e7469616c20616c7265616479207265766f6b65640000000000006044820152606401610207565b60068101805460ff1916600117905560028101546040516001600160a01b0390911690869086907f9937c77a4949a575a62b3a88b4f314748cf787baccc6c98fa5c82ab4857d1ac6905f90a45050505050565b80356001600160a01b0381168114610988575f5ffd5b919050565b5f6020828403121561099d575f5ffd5b6109a682610972565b9392505050565b602080825282518282018190525f918401906040840190835b818110156109e45783518352602093840193909201916001016109c6565b509095945050505050565b5f602082840312156109ff575f5ffd5b5035919050565b60208152815160208201525f60208301516080604084015280518060a0850152806020830160c086015e5f60c0828601015260018060a01b0360408601511660608501526060850151608085015260c0601f19601f8301168501019250505092915050565b5f5f83601f840112610a7b575f5ffd5b50813567ffffffffffffffff811115610a92575f5ffd5b602083019150836020828501011115610aa9575f5ffd5b9250929050565b5f5f60208385031215610ac1575f5ffd5b823567ffffffffffffffff811115610ad7575f5ffd5b610ae385828601610a6b565b90969095509350505050565b5f5f5f5f60608587031215610b02575f5ffd5b84359350610b1260208601610972565b9250604085013567ffffffffffffffff811115610b2d575f5ffd5b610b3987828801610a6b565b95989497509550505050565b6020808252601b908201527f4f7267616e697a6174696f6e20646f6573206e6f742065786973740000000000604082015260600190565b600181811c90821680610b9057607f821691505b60208210810361036257634e487b7160e01b5f52602260045260245ffd5b5f60018201610bcb57634e487b7160e01b5f52601160045260245ffd5b5060010190565b634e487b7160e01b5f52604160045260245ffd5b601f821115610c2d57805f5260205f20601f840160051c81016020851015610c0b5750805b601f840160051c820191505b81811015610c2a575f8155600101610c17565b50505b505050565b815167ffffffffffffffff811115610c4c57610c4c610bd2565b610c6081610c5a8454610b7c565b84610be6565b6020601f821160018114610c92575f8315610c7b5750848201515b5f19600385901b1c1916600184901b178455610c2a565b5f84815260208120601f198516915b82811015610cc15787850151825560209485019460019092019101610ca1565b5084821015610cde57868401515f19600387901b60f8161c191681555b50505050600190811b01905550565b60208152816020820152818360408301375f818301604090810191909152601f909201601f1916010191905056fea264697066735822122090a38e652b9f1e39ca2fe5259af6a4070cb926369c1b70742e8cc7edd45eb5da64736f6c634300081e0033",
+  "linkReferences": {},
+  "deployedLinkReferences": {},
+  "immutableReferences": {},
+  "inputSourceName": "project/contracts/UniOrg.sol",
+  "devdoc": {
+    "details": "On-chain credential infrastructure for university organizations",
+    "kind": "dev",
+    "methods": {},
+    "title": "UniOrg",
+    "version": 1
+  },
+  "evm": {
+    "gasEstimates": {
+      "creation": {
+        "codeDepositCost": "681800",
+        "executionCost": "44924",
+        "totalCost": "726724"
+      },
+      "external": {
+        "createOrganization(string)": "infinite",
+        "getIssuerOrgs(address)": "infinite",
+        "getOrganization(uint256)": "infinite",
+        "getRecipientCredentials(address)": "infinite",
+        "issueCredential(uint256,address,string)": "infinite",
+        "revokeCredential(uint256)": "39461",
+        "verifyCredential(uint256)": "4692"
+      },
+      "internal": {
+        "_revokeCredential(uint256,uint256)": "infinite"
+      }
+    }
+  },
+  "metadata": "{\"compiler\":{\"version\":\"0.8.30+commit.73712a01\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"credentialId\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"orgId\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"metadataURI\",\"type\":\"string\"}],\"name\":\"CredentialIssued\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"credentialId\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"orgId\",\"type\":\"uint256\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"}],\"name\":\"CredentialRevoked\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"uint256\",\"name\":\"orgId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"issuer\",\"type\":\"address\"}],\"name\":\"OrganizationCreated\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"}],\"name\":\"createOrganization\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"orgId\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"issuer\",\"type\":\"address\"}],\"name\":\"getIssuerOrgs\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"\",\"type\":\"uint256[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"orgId\",\"type\":\"uint256\"}],\"name\":\"getOrganization\",\"outputs\":[{\"components\":[{\"internalType\":\"uint256\",\"name\":\"id\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"issuer\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"createdAt\",\"type\":\"uint256\"}],\"internalType\":\"struct UniOrg.Organization\",\"name\":\"\",\"type\":\"tuple\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"}],\"name\":\"getRecipientCredentials\",\"outputs\":[{\"internalType\":\"uint256[]\",\"name\":\"\",\"type\":\"uint256[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"orgId\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"metadataURI\",\"type\":\"string\"}],\"name\":\"issueCredential\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"credentialId\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"credentialId\",\"type\":\"uint256\"}],\"name\":\"revokeCredential\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"credentialId\",\"type\":\"uint256\"}],\"name\":\"verifyCredential\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"On-chain credential infrastructure for university organizations\",\"kind\":\"dev\",\"methods\":{},\"title\":\"UniOrg\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project/contracts/UniOrg.sol\":\"UniOrg\"},\"evmVersion\":\"prague\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[\"project/:hardhat/=npm/hardhat@3.4.5/\"]},\"sources\":{\"project/contracts/UniOrg.sol\":{\"content\":\"//SPDX-License-Identifier: MIT\\r\\npragma solidity >=0.8.19 <0.9.0;\\r\\n\\r\\n/**\\r\\n * @title UniOrg\\r\\n * @dev On-chain credential infrastructure for university organizations\\r\\n */\\r\\ncontract UniOrg {\\r\\n    struct Organization {\\r\\n        uint256 id;\\r\\n        string name;\\r\\n        address issuer;\\r\\n        uint256 createdAt;\\r\\n    }\\r\\n\\r\\n    struct Credential {\\r\\n        uint256 id;\\r\\n        uint256 orgId;\\r\\n        address recipient;\\r\\n        string metadataURI;\\r\\n        address issuer;\\r\\n        uint256 issuedAt;\\r\\n        bool revoked;\\r\\n    }\\r\\n\\r\\n    uint256 private _nextOrgId = 1;\\r\\n    uint256 private _nextCredentialId = 1;\\r\\n\\r\\n    mapping(uint256 => Organization) private _organizations;\\r\\n    mapping(uint256 => Credential) private _credentials;\\r\\n    mapping(address => uint256[]) private _issuerOrgs;\\r\\n    mapping(address => uint256[]) private _recipientCredentials;\\r\\n\\r\\n    event OrganizationCreated(uint256 indexed orgId, string name, address indexed issuer);\\r\\n    event CredentialIssued(\\r\\n        uint256 indexed credentialId,\\r\\n        uint256 indexed orgId,\\r\\n        address indexed recipient,\\r\\n        string metadataURI\\r\\n    );\\r\\n    event CredentialRevoked(uint256 indexed credentialId, uint256 indexed orgId, address indexed recipient);\\r\\n\\r\\n    modifier orgExists(uint256 orgId) {\\r\\n        require(orgId > 0 && orgId < _nextOrgId, \\\"Organization does not exist\\\");\\r\\n        _;\\r\\n    }\\r\\n\\r\\n    modifier onlyIssuer(uint256 orgId) {\\r\\n        require(_organizations[orgId].issuer == msg.sender, \\\"Not organization issuer\\\");\\r\\n        _;\\r\\n    }\\r\\n\\r\\n    function createOrganization(string calldata name) external returns (uint256 orgId) {\\r\\n        require(bytes(name).length > 0, \\\"Name cannot be empty\\\");\\r\\n\\r\\n        orgId = _nextOrgId++;\\r\\n        _organizations[orgId] = Organization({\\r\\n            id: orgId,\\r\\n            name: name,\\r\\n            issuer: msg.sender,\\r\\n            createdAt: block.timestamp\\r\\n        });\\r\\n        _issuerOrgs[msg.sender].push(orgId);\\r\\n\\r\\n        emit OrganizationCreated(orgId, name, msg.sender);\\r\\n    }\\r\\n\\r\\n    function issueCredential(\\r\\n        uint256 orgId,\\r\\n        address recipient,\\r\\n        string calldata metadataURI\\r\\n    ) external orgExists(orgId) onlyIssuer(orgId) returns (uint256 credentialId) {\\r\\n        require(recipient != address(0), \\\"Invalid recipient\\\");\\r\\n        require(bytes(metadataURI).length > 0, \\\"Metadata cannot be empty\\\");\\r\\n\\r\\n        credentialId = _nextCredentialId++;\\r\\n        _credentials[credentialId] = Credential({\\r\\n            id: credentialId,\\r\\n            orgId: orgId,\\r\\n            recipient: recipient,\\r\\n            metadataURI: metadataURI,\\r\\n            issuer: msg.sender,\\r\\n            issuedAt: block.timestamp,\\r\\n            revoked: false\\r\\n        });\\r\\n        _recipientCredentials[recipient].push(credentialId);\\r\\n\\r\\n        emit CredentialIssued(credentialId, orgId, recipient, metadataURI);\\r\\n    }\\r\\n\\r\\n    function revokeCredential(uint256 credentialId) external {\\r\\n        require(credentialId > 0 && credentialId < _nextCredentialId, \\\"Credential does not exist\\\");\\r\\n\\r\\n        uint256 orgId = _credentials[credentialId].orgId;\\r\\n        _revokeCredential(orgId, credentialId);\\r\\n    }\\r\\n\\r\\n    function verifyCredential(uint256 credentialId) external view returns (bool) {\\r\\n        if (credentialId == 0 || credentialId >= _nextCredentialId) {\\r\\n            return false;\\r\\n        }\\r\\n\\r\\n        return !_credentials[credentialId].revoked;\\r\\n    }\\r\\n\\r\\n    function getOrganization(uint256 orgId) external view orgExists(orgId) returns (Organization memory) {\\r\\n        return _organizations[orgId];\\r\\n    }\\r\\n\\r\\n    function getIssuerOrgs(address issuer) external view returns (uint256[] memory) {\\r\\n        return _issuerOrgs[issuer];\\r\\n    }\\r\\n\\r\\n    function getRecipientCredentials(address recipient) external view returns (uint256[] memory) {\\r\\n        return _recipientCredentials[recipient];\\r\\n    }\\r\\n\\r\\n    function _revokeCredential(uint256 orgId, uint256 credentialId) internal orgExists(orgId) onlyIssuer(orgId) {\\r\\n        Credential storage credential = _credentials[credentialId];\\r\\n        require(!credential.revoked, \\\"Credential already revoked\\\");\\r\\n\\r\\n        credential.revoked = true;\\r\\n\\r\\n        emit CredentialRevoked(credentialId, orgId, credential.recipient);\\r\\n    }\\r\\n}\\r\\n\",\"keccak256\":\"0x5ffb25c5aa9173b2bd42d7e87c56c9f46487a4eb42eedd09f960c65e15780e0f\",\"license\":\"MIT\"}},\"version\":1}",
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 8114,
+        "contract": "project/contracts/UniOrg.sol:UniOrg",
+        "label": "_nextOrgId",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 8117,
+        "contract": "project/contracts/UniOrg.sol:UniOrg",
+        "label": "_nextCredentialId",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 8122,
+        "contract": "project/contracts/UniOrg.sol:UniOrg",
+        "label": "_organizations",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_mapping(t_uint256,t_struct(Organization)8096_storage)"
+      },
+      {
+        "astId": 8127,
+        "contract": "project/contracts/UniOrg.sol:UniOrg",
+        "label": "_credentials",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_mapping(t_uint256,t_struct(Credential)8111_storage)"
+      },
+      {
+        "astId": 8132,
+        "contract": "project/contracts/UniOrg.sol:UniOrg",
+        "label": "_issuerOrgs",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_mapping(t_address,t_array(t_uint256)dyn_storage)"
+      },
+      {
+        "astId": 8137,
+        "contract": "project/contracts/UniOrg.sol:UniOrg",
+        "label": "_recipientCredentials",
+        "offset": 0,
+        "slot": "5",
+        "type": "t_mapping(t_address,t_array(t_uint256)dyn_storage)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_uint256)dyn_storage": {
+        "base": "t_uint256",
+        "encoding": "dynamic_array",
+        "label": "uint256[]",
+        "numberOfBytes": "32"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_mapping(t_address,t_array(t_uint256)dyn_storage)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => uint256[])",
+        "numberOfBytes": "32",
+        "value": "t_array(t_uint256)dyn_storage"
+      },
+      "t_mapping(t_uint256,t_struct(Credential)8111_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => struct UniOrg.Credential)",
+        "numberOfBytes": "32",
+        "value": "t_struct(Credential)8111_storage"
+      },
+      "t_mapping(t_uint256,t_struct(Organization)8096_storage)": {
+        "encoding": "mapping",
+        "key": "t_uint256",
+        "label": "mapping(uint256 => struct UniOrg.Organization)",
+        "numberOfBytes": "32",
+        "value": "t_struct(Organization)8096_storage"
+      },
+      "t_string_storage": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_struct(Credential)8111_storage": {
+        "encoding": "inplace",
+        "label": "struct UniOrg.Credential",
+        "members": [
+          {
+            "astId": 8098,
+            "contract": "project/contracts/UniOrg.sol:UniOrg",
+            "label": "id",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 8100,
+            "contract": "project/contracts/UniOrg.sol:UniOrg",
+            "label": "orgId",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 8102,
+            "contract": "project/contracts/UniOrg.sol:UniOrg",
+            "label": "recipient",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_address"
+          },
+          {
+            "astId": 8104,
+            "contract": "project/contracts/UniOrg.sol:UniOrg",
+            "label": "metadataURI",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 8106,
+            "contract": "project/contracts/UniOrg.sol:UniOrg",
+            "label": "issuer",
+            "offset": 0,
+            "slot": "4",
+            "type": "t_address"
+          },
+          {
+            "astId": 8108,
+            "contract": "project/contracts/UniOrg.sol:UniOrg",
+            "label": "issuedAt",
+            "offset": 0,
+            "slot": "5",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 8110,
+            "contract": "project/contracts/UniOrg.sol:UniOrg",
+            "label": "revoked",
+            "offset": 0,
+            "slot": "6",
+            "type": "t_bool"
+          }
+        ],
+        "numberOfBytes": "224"
+      },
+      "t_struct(Organization)8096_storage": {
+        "encoding": "inplace",
+        "label": "struct UniOrg.Organization",
+        "members": [
+          {
+            "astId": 8089,
+            "contract": "project/contracts/UniOrg.sol:UniOrg",
+            "label": "id",
+            "offset": 0,
+            "slot": "0",
+            "type": "t_uint256"
+          },
+          {
+            "astId": 8091,
+            "contract": "project/contracts/UniOrg.sol:UniOrg",
+            "label": "name",
+            "offset": 0,
+            "slot": "1",
+            "type": "t_string_storage"
+          },
+          {
+            "astId": 8093,
+            "contract": "project/contracts/UniOrg.sol:UniOrg",
+            "label": "issuer",
+            "offset": 0,
+            "slot": "2",
+            "type": "t_address"
+          },
+          {
+            "astId": 8095,
+            "contract": "project/contracts/UniOrg.sol:UniOrg",
+            "label": "createdAt",
+            "offset": 0,
+            "slot": "3",
+            "type": "t_uint256"
+          }
+        ],
+        "numberOfBytes": "128"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "argsData": "0x",
+  "transaction": {
+    "hash": "0xc8d3dca667f1a401b572b5a03432a56a4fdd17f51a1180220bf7ce87fea409db",
+    "nonce": "0x0",
+    "origin": "0x9949df6fbcfa6489a970f24552e2ee1767956409"
+  },
+  "receipt": {
+    "blockHash": "0x6dea703b4703182aa1f770f6576fe5257e7ad9d3180fcff7f5d0d81b2b160a97",
+    "blockNumber": "0x11a3a34c",
+    "transactionIndex": "0x8"
+  }
+}
