@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 
 export default function VerifyCredential() {
@@ -48,9 +49,9 @@ export default function VerifyCredential() {
                     </div>
                 )}
 
-                <a href="/" className="block text-center text-blue-600 hover:underline">
+                <Link href="/" className="block text-center text-blue-600 hover:underline">
                     ← Volver al Dashboard
-                </a>
+                </Link>
             </div>
         </div>
     );

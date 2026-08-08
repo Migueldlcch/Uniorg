@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useAccount } from "wagmi";
 import { useScaffoldWriteContract } from "~~/hooks/scaffold-eth";
 
@@ -77,9 +78,9 @@ export default function IssueCredential() {
                         Emitir Credencial
                     </button>
 
-                    <a href="/" className="block text-center text-blue-600 hover:underline">
+                    <Link href="/" className="block text-center text-blue-600 hover:underline">
                         ← Volver al Dashboard
-                    </a>
+                    </Link>
                 </div>
             ) : (
                 <p className="text-xl">Conecta tu wallet para continuar.</p>
