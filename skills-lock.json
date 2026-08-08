@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "solidity-security": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "skillPath": "plugins/blockchain-web3/skills/solidity-security/SKILL.md",
+      "computedHash": "8313ac3799079c7eee4f8bfdb2747514a09590b370f11ef1db4739a11d2e4ab9"
+    }
+  }
+}
