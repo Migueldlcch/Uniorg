@@ -256,7 +256,7 @@ const deployedContracts = {
   },
   421614: {
     UniOrg: {
-      address: "0xf94bbddb281e784e330ac293edf09a1365ac2df1",
+      address: "0xcd2b62013948f6ddd0f64aa19e1287164a06d4ff",
       abi: [
         {
           anonymous: false,
@@ -356,6 +356,62 @@ const deployedContracts = {
             },
           ],
           stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "credentialId",
+              type: "uint256",
+            },
+          ],
+          name: "getCredential",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "uint256",
+                  name: "id",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "orgId",
+                  type: "uint256",
+                },
+                {
+                  internalType: "address",
+                  name: "recipient",
+                  type: "address",
+                },
+                {
+                  internalType: "string",
+                  name: "metadataURI",
+                  type: "string",
+                },
+                {
+                  internalType: "address",
+                  name: "issuer",
+                  type: "address",
+                },
+                {
+                  internalType: "uint256",
+                  name: "issuedAt",
+                  type: "uint256",
+                },
+                {
+                  internalType: "bool",
+                  name: "revoked",
+                  type: "bool",
+                },
+              ],
+              internalType: "struct UniOrg.Credential",
+              name: "",
+              type: "tuple",
+            },
+          ],
+          stateMutability: "view",
           type: "function",
         },
         {
@@ -500,7 +556,7 @@ const deployedContracts = {
         },
       ],
       inheritedFunctions: {},
-      deployedOnBlock: 295936844,
+      deployedOnBlock: 296771427,
     },
   },
 } as const;

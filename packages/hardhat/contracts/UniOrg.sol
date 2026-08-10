@@ -54,12 +54,7 @@ contract UniOrg {
         require(bytes(name).length > 0, "Name cannot be empty");
 
         orgId = _nextOrgId++;
-        _organizations[orgId] = Organization({
-            id: orgId,
-            name: name,
-            issuer: msg.sender,
-            createdAt: block.timestamp
-        });
+        _organizations[orgId] = Organization({ id: orgId, name: name, issuer: msg.sender, createdAt: block.timestamp });
         _issuerOrgs[msg.sender].push(orgId);
 
         emit OrganizationCreated(orgId, name, msg.sender);
@@ -105,6 +100,11 @@ contract UniOrg {
 
     function getOrganization(uint256 orgId) external view orgExists(orgId) returns (Organization memory) {
         return _organizations[orgId];
+    }
+
+    function getCredential(uint256 credentialId) external view returns (Credential memory) {
+        require(credentialId > 0 && credentialId < _nextCredentialId, "Credential does not exist");
+        return _credentials[credentialId];
     }
 
     function getIssuerOrgs(address issuer) external view returns (uint256[] memory) {
