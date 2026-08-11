@@ -1,13 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useAccount } from "wagmi";
 import {
   useScaffoldReadContract,
-  useScaffoldWatchContractEvent,
   useScaffoldWriteContract,
+  useScaffoldWatchContractEvent,
 } from "~~/hooks/scaffold-eth";
 import { notification } from "~~/utils/scaffold-eth";
 
@@ -53,7 +53,9 @@ function OrgCard({ orgId }: { orgId: bigint }) {
           </p>
           <h3 className="mt-1 text-lg font-bold text-gray-900">{org.name}</h3>
         </div>
-        <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">🏛️ Emisor</span>
+        <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">
+          🏛️ Emisor
+        </span>
       </div>
       <p className="mt-3 text-xs text-gray-500">
         <span className="font-mono">{truncate(org.issuer)}</span> · Creada el {fmtDate(org.createdAt)}
@@ -146,7 +148,7 @@ export default function Home() {
   const { address, isConnected } = useAccount();
   const [orgName, setOrgName] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
-  const refresh = () => setRefreshKey(k => k + 1);
+  const refresh = () => setRefreshKey((k) => k + 1);
 
   const { data: issuerOrgIds } = useScaffoldReadContract({
     contractName: "UniOrg",
@@ -177,7 +179,7 @@ export default function Home() {
     if (!orgName.trim()) return notification.error("Escribe un nombre para la organización");
     try {
       await createOrg({ functionName: "createOrganization", args: [orgName] });
-      notification.success(`Organización "${orgName}" creada`);
+      notification.success(`Organización ${orgName} creada`);
       setOrgName("");
       refresh();
     } catch (e: any) {
@@ -196,13 +198,16 @@ export default function Home() {
     }
   };
 
-  if (!isConnected) {
-    return (
-      <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-violet-50">
-        <div className="pointer-events-none absolute -left-24 -top-24 h-96 w-96 rounded-full bg-indigo-200/50 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-violet-200/50 blur-3xl" />
+  const orgIds = issuerOrgIds ?? [];
+  const credIds = recipientCredIds ?? [];
 
-        <div className="relative mx-auto flex max-w-5xl flex-col items-center px-4 py-16 text-center">
+  return (
+    <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-violet-50">
+      <div className="pointer-events-none absolute -left-24 -top-24 h-96 w-96 rounded-full bg-indigo-200/50 blur-3xl" />
+      <div className="pointer-events-none absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-violet-200/50 blur-3xl" />
+
+      <div className="relative mx-auto max-w-5xl px-4 py-14">
+        <div className="flex flex-col items-center text-center">
           <Image src="/uniorg-logo.png" alt="UniOrg" width={96} height={96} className="rounded-3xl shadow-lg" />
           <p className="mt-6 text-xs font-bold uppercase tracking-[0.3em] text-indigo-500">
             Infraestructura de credenciales · Arbitrum
@@ -217,160 +222,148 @@ export default function Home() {
             Las universidades emiten en una transacción. Cualquier persona verifica en segundos, sin wallet y sin
             pedir permiso. Identidad, liderazgo, impacto.
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link
-              href="/verify"
-              className="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-8 py-3 text-lg font-bold text-white shadow-lg transition hover:brightness-110"
-            >
-              🔍 Verificar credencial
-            </Link>
-            <Link
-              href="/issue"
-              className="rounded-xl border-2 border-indigo-200 bg-white px-8 py-3 text-lg font-bold text-indigo-700 transition hover:border-indigo-400"
-            >
-              🎓 Emitir credencial
-            </Link>
-          </div>
 
-          <div className="mt-14 grid w-full gap-4 sm:grid-cols-3">
-            <div className="rounded-2xl border border-indigo-100 bg-white/80 p-6 text-left shadow-sm backdrop-blur">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-600 text-sm font-bold text-white">
-                1
-              </span>
-              <h3 className="mt-3 font-bold text-gray-900">La universidad emite</h3>
-              <p className="mt-1 text-sm text-gray-500">
-                Una transacción firma la credencial con la identidad de la organización.
-              </p>
+          {isConnected ? (
+            <p className="mt-6 rounded-full border border-indigo-100 bg-white/80 px-5 py-2 text-sm font-semibold text-indigo-700 shadow-sm">
+              Conectado como <span className="font-mono">{truncate(address!)}</span>
+            </p>
+          ) : (
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/verify"
+                className="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-8 py-3 text-lg font-bold text-white shadow-lg transition hover:brightness-110"
+              >
+                🔍 Verificar credencial
+              </Link>
+              <Link
+                href="/issue"
+                className="rounded-xl border-2 border-indigo-200 bg-white px-8 py-3 text-lg font-bold text-indigo-700 transition hover:border-indigo-400"
+              >
+                🎓 Emitir credencial
+              </Link>
             </div>
-            <div className="rounded-2xl border border-indigo-100 bg-white/80 p-6 text-left shadow-sm backdrop-blur">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-violet-600 text-sm font-bold text-white">
-                2
-              </span>
-              <h3 className="mt-3 font-bold text-gray-900">Cualquiera verifica</h3>
-              <p className="mt-1 text-sm text-gray-500">Sin cuenta, sin wallet: un ID y diez segundos de verdad.</p>
-            </div>
-            <div className="rounded-2xl border border-indigo-100 bg-white/80 p-6 text-left shadow-sm backdrop-blur">
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-purple-600 text-sm font-bold text-white">
-                3
-              </span>
-              <h3 className="mt-3 font-bold text-gray-900">Arbitrum garantiza</h3>
-              <p className="mt-1 text-sm text-gray-500">
-                Inmutable, revocable en público y auditable por siempre en Arbiscan.
-              </p>
-            </div>
-          </div>
-
-          <p className="mt-10 text-xs text-gray-400">
-            Contrato público en Arbitrum Sepolia:{" "}
-            <a
-              href="https://sepolia.arbiscan.io/address/0xcd2b62013948f6ddd0f64aa19e1287164a06d4ff"
-              target="_blank"
-              rel="noreferrer"
-              className="font-mono font-semibold text-indigo-500 hover:underline"
-            >
-              0xcd2b…d4ff ↗
-            </a>
-          </p>
+          )}
         </div>
-      </div>
-    );
-  }
 
-  const orgIds = issuerOrgIds ?? [];
-  const credIds = recipientCredIds ?? [];
-
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white py-10 px-4">
-      <div className="mx-auto max-w-4xl space-y-8">
-        <header className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <h1 className="text-3xl font-extrabold text-gray-900">Dashboard UniOrg 🎓</h1>
+        <div className="mt-14 grid w-full gap-4 sm:grid-cols-3">
+          <div className="rounded-2xl border border-indigo-100 bg-white/80 p-6 text-left shadow-sm backdrop-blur">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-600 text-sm font-bold text-white">
+              1
+            </span>
+            <h3 className="mt-3 font-bold text-gray-900">La universidad emite</h3>
             <p className="mt-1 text-sm text-gray-500">
-              Conectado como <span className="font-mono font-semibold text-indigo-600">{truncate(address!)}</span>
+              Una transacción firma la credencial con la identidad de la organización.
             </p>
           </div>
-          <div className="flex gap-2">
-            <Link
-              href="/issue"
-              className="rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-emerald-700"
-            >
-              + Emitir
-            </Link>
-            <Link
-              href="/verify"
-              className="rounded-xl bg-violet-600 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-violet-700"
-            >
-              Verificar
-            </Link>
+          <div className="rounded-2xl border border-indigo-100 bg-white/80 p-6 text-left shadow-sm backdrop-blur">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-violet-600 text-sm font-bold text-white">
+              2
+            </span>
+            <h3 className="mt-3 font-bold text-gray-900">Cualquiera verifica</h3>
+            <p className="mt-1 text-sm text-gray-500">Sin cuenta, sin wallet: un ID y diez segundos de verdad.</p>
           </div>
-        </header>
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <StatCard icon="🏛️" label="Mis organizaciones" value={String(orgIds.length)} />
-          <StatCard icon="🎓" label="Credenciales recibidas" value={String(credIds.length)} />
-          <StatCard icon="⛓️" label="Red" value="Arbitrum Sepolia" />
+          <div className="rounded-2xl border border-indigo-100 bg-white/80 p-6 text-left shadow-sm backdrop-blur">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-purple-600 text-sm font-bold text-white">
+              3
+            </span>
+            <h3 className="mt-3 font-bold text-gray-900">Arbitrum garantiza</h3>
+            <p className="mt-1 text-sm text-gray-500">
+              Inmutable, revocable en público y auditable por siempre en Arbiscan.
+            </p>
+          </div>
         </div>
 
-        <section className="rounded-2xl border border-indigo-100 bg-white p-6 shadow-sm">
-          <h2 className="text-lg font-bold text-gray-900">Crear organización emisora</h2>
-          <p className="mb-4 text-xs text-gray-500">
-            Registra tu universidad como emisor verificable. Quedará grabado en Arbitrum.
-          </p>
-          <div className="flex gap-2">
-            <input
-              type="text"
-              value={orgName}
-              onChange={e => setOrgName(e.target.value)}
-              placeholder="Ej: Universidad Nacional de Ingeniería"
-              className="flex-1 rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:border-indigo-400 focus:outline-none"
-            />
-            <button
-              onClick={handleCreate}
-              className="rounded-xl bg-indigo-600 px-6 py-2.5 text-sm font-bold text-white transition-colors hover:bg-indigo-700"
-            >
-              Crear
-            </button>
+        {isConnected && (
+          <div className="mt-14 space-y-8">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <h2 className="text-2xl font-extrabold text-gray-900">Tu panel 🎓</h2>
+              <div className="flex gap-2">
+                <Link
+                  href="/issue"
+                  className="rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-emerald-700"
+                >
+                  + Emitir
+                </Link>
+                <Link
+                  href="/verify"
+                  className="rounded-xl bg-violet-600 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-colors hover:bg-violet-700"
+                >
+                  Verificar
+                </Link>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+              <StatCard icon="🏛️" label="Mis organizaciones" value={String(orgIds.length)} />
+              <StatCard icon="🎓" label="Credenciales recibidas" value={String(credIds.length)} />
+              <StatCard icon="⛓️" label="Red" value="Arbitrum Sepolia" />
+            </div>
+
+            <section className="rounded-2xl border border-indigo-100 bg-white p-6 shadow-sm">
+              <h2 className="text-lg font-bold text-gray-900">Crear organización emisora</h2>
+              <p className="mb-4 text-xs text-gray-500">
+                Registra tu universidad como emisor verificable. Quedará grabado en Arbitrum.
+              </p>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={orgName}
+                  onChange={(e) => setOrgName(e.target.value)}
+                  placeholder="Ej: Universidad Nacional de Ingeniería"
+                  className="flex-1 rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:border-indigo-400 focus:outline-none"
+                />
+                <button
+                  onClick={handleCreate}
+                  className="rounded-xl bg-indigo-600 px-6 py-2.5 text-sm font-bold text-white transition-colors hover:bg-indigo-700"
+                >
+                  Crear
+                </button>
+              </div>
+            </section>
+
+            <section className="space-y-3">
+              <h2 className="text-lg font-bold text-gray-900">Mis organizaciones</h2>
+              {orgIds.length > 0 ? (
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {orgIds.map((id) => (
+                    <OrgCard key={`${id.toString()}-${refreshKey}`} orgId={id} />
+                  ))}
+                </div>
+              ) : (
+                <p className="rounded-2xl border border-dashed border-indigo-200 p-6 text-center text-sm text-gray-500">
+                  Aún no tienes organizaciones. Crea la primera arriba. ☝️
+                </p>
+              )}
+            </section>
+
+            <section className="space-y-3">
+              <h2 className="text-lg font-bold text-gray-900">Credenciales recibidas</h2>
+              {credIds.length > 0 ? (
+                <div className="space-y-3">
+                  {credIds.map((id) => (
+                    <CredCard key={`${id.toString()}-${refreshKey}`} credId={id} onRevoke={handleRevoke} />
+                  ))}
+                </div>
+              ) : (
+                <p className="rounded-2xl border border-dashed border-indigo-200 p-6 text-center text-sm text-gray-500">
+                  Aún no recibes credenciales. Emite la primera con el botón + Emitir de arriba. 🎓
+                </p>
+              )}
+            </section>
           </div>
-        </section>
+        )}
 
-        <section className="space-y-3">
-          <h2 className="text-lg font-bold text-gray-900">Mis organizaciones</h2>
-          {orgIds.length > 0 ? (
-            <div className="grid gap-3 sm:grid-cols-2">
-              {orgIds.map(id => (
-                <OrgCard key={`${id.toString()}-${refreshKey}`} orgId={id} />
-              ))}
-            </div>
-          ) : (
-            <p className="rounded-2xl border border-dashed border-indigo-200 p-6 text-center text-sm text-gray-500">
-              Aún no tienes organizaciones. Crea la primera arriba. ☝️
-            </p>
-          )}
-        </section>
-
-        <section className="space-y-3">
-          <h2 className="text-lg font-bold text-gray-900">Credenciales recibidas</h2>
-          {credIds.length > 0 ? (
-            <div className="space-y-3">
-              {credIds.map(id => (
-                <CredCard key={`${id.toString()}-${refreshKey}`} credId={id} onRevoke={handleRevoke} />
-              ))}
-            </div>
-          ) : (
-            <p className="rounded-2xl border border-dashed border-indigo-200 p-6 text-center text-sm text-gray-500">
-              Aún no recibes credenciales. Emite la primera con el botón + Emitir de arriba. 🎓
-            </p>
-          )}
-        </section>
-
-        <section className="rounded-2xl bg-indigo-600 p-5 text-sm text-indigo-50 shadow-md">
-          <strong>🔍 Transparencia total:</strong> cada emisión, revocación y verificación queda en Arbitrum Sepolia.
-          Audítalo en{" "}
-          <a href={ARBISCAN} target="_blank" rel="noreferrer" className="font-bold underline">
-            Arbiscan ↗
+        <p className="mt-12 text-center text-xs text-gray-400">
+          Contrato público en Arbitrum Sepolia:{" "}
+          <a
+            href="https://sepolia.arbiscan.io/address/0xcd2b62013948f6ddd0f64aa19e1287164a06d4ff"
+            target="_blank"
+            rel="noreferrer"
+            className="font-mono font-semibold text-indigo-500 hover:underline"
+          >
+            0xcd2b…d4ff ↗
           </a>
-          . La metadata vive en IPFS: la cadena guarda el sello inmutable.
-        </section>
+        </p>
       </div>
     </div>
   );
