@@ -101,9 +101,8 @@ function CredCard({ credId, onRevoke }: { credId: bigint; onRevoke: (id: bigint)
         <div>
           <div className="flex flex-wrap items-center gap-2">
             <span
-              className={`rounded-full px-3 py-1 text-xs font-bold ${
-                isValid ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"
-              }`}
+              className={`rounded-full px-3 py-1 text-xs font-bold ${isValid ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"
+                }`}
             >
               {isValid ? "✅ Válida" : "❌ Revocada"}
             </span>
