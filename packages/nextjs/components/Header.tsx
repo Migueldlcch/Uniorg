@@ -11,14 +11,43 @@ import { useOutsideClick, useTargetNetwork } from "~~/hooks/scaffold-eth";
 
 type HeaderMenuLink = {
   label: string;
-  href: string;
-  icon?: React.ReactNode;
+  href?: string;
+  items?: { label: string; href: string; external?: boolean }[];
 };
 
 export const menuLinks: HeaderMenuLink[] = [
+  { label: "Home", href: "/" },
   {
-    label: "Home",
-    href: "/",
+    label: "Producto",
+    items: [
+      { label: "🔍 Verificar credencial", href: "/verify" },
+      { label: "🎓 Emitir credencial", href: "/issue" },
+    ],
+  },
+  {
+    label: "Organizaciones",
+    items: [
+      { label: "🏛️ Mi panel de organizaciones", href: "/" },
+      { label: "📁 Proyectos · beta", href: "/" },
+      { label: "👥 Afiliados · beta", href: "/" },
+      { label: "🎖️ Roles · beta", href: "/" },
+    ],
+  },
+  {
+    label: "Recursos",
+    items: [
+      {
+        label: "⛓️ Contrato en Arbiscan",
+        href: "https://sepolia.arbiscan.io/address/0xcd2b62013948f6ddd0f64aa19e1287164a06d4ff",
+        external: true,
+      },
+      {
+        label: "📄 Certificado en IPFS",
+        href: "https://ipfs.io/ipfs/bafybeib4rpfdp22c7hpfsryxymmm5rhkehn7zyang3d572kmbaoepfxste",
+        external: true,
+      },
+      { label: "💻 Código fuente", href: "https://github.com/Migueldlcch/Uniorg", external: true },
+    ],
   },
 ];
 
@@ -27,18 +56,46 @@ export const HeaderMenuLinks = () => {
 
   return (
     <>
-      {menuLinks.map(({ label, href, icon }) => {
-        const isActive = pathname === href;
+      {menuLinks.map((link) => {
+        if (link.items) {
+          return (
+            <li key={link.label} className="h-full">
+              <div className="dropdown dropdown-hover h-full">
+                <div
+                  tabIndex={0}
+                  role="button"
+                  className="flex h-full items-center gap-1 px-4 text-sm whitespace-nowrap hover:bg-base-300"
+                >
+                  {link.label} <span className="text-xs text-gray-400">▾</span>
+                </div>
+                <ul tabIndex={0} className="dropdown-content menu bg-base-100 rounded-box z-30 w-64 p-2 shadow-lg">
+                  {link.items.map((item) => (
+                    <li key={item.label}>
+                      {item.external ? (
+                        <a href={item.href} target="_blank" rel="noreferrer">
+                          {item.label}
+                        </a>
+                      ) : (
+                        <Link href={item.href}>{item.label}</Link>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          );
+        }
+
+        const isActive = pathname === link.href;
         return (
-          <li key={href} className="h-full">
+          <li key={link.label} className="h-full">
             <Link
-              href={href}
+              href={link.href as string}
               passHref
               className={`${isActive ? "bg-base-300" : ""
                 } hover:bg-base-300 focus:!bg-base-300 h-full px-4 text-sm gap-2 flex items-center whitespace-nowrap`}
             >
-              {icon}
-              <span>{label}</span>
+              <span>{link.label}</span>
             </Link>
           </li>
         );

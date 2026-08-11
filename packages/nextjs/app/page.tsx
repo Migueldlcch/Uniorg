@@ -47,11 +47,16 @@ function OrgCard({ orgId }: { orgId: bigint }) {
   return (
     <div className="rounded-2xl border border-indigo-100 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
       <div className="flex items-start justify-between gap-2">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-indigo-500">
-            Organización #{org.id.toString()}
-          </p>
-          <h3 className="mt-1 text-lg font-bold text-gray-900">{org.name}</h3>
+        <div className="flex items-center gap-3">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-lg font-extrabold text-white shadow">
+            {org.name.charAt(0).toUpperCase()}
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-indigo-500">
+              Organización #{org.id.toString()}
+            </p>
+            <h3 className="mt-1 text-lg font-bold text-gray-900">{org.name}</h3>
+          </div>
         </div>
         <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">
           🏛️ Emisor
@@ -60,6 +65,17 @@ function OrgCard({ orgId }: { orgId: bigint }) {
       <p className="mt-3 text-xs text-gray-500">
         <span className="font-mono">{truncate(org.issuer)}</span> · Creada el {fmtDate(org.createdAt)}
       </p>
+      <div className="mt-4 flex flex-wrap gap-2 border-t border-indigo-50 pt-3">
+        {["📁 Proyectos", "👥 Afiliados", "🎖️ Roles", "📄 Documentos", "🖼️ Galería"].map((label) => (
+          <button
+            key={label}
+            onClick={() => notification.info(`${label} · disponible en fase beta 🚧`)}
+            className="rounded-lg border border-indigo-100 bg-indigo-50/60 px-3 py-1.5 text-xs font-semibold text-indigo-600 transition hover:bg-indigo-100"
+          >
+            {label}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
@@ -219,6 +235,14 @@ export default function Home() {
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-violet-50">
       <div className="pointer-events-none absolute -left-24 -top-24 h-96 w-96 rounded-full bg-indigo-200/50 blur-3xl" />
       <div className="pointer-events-none absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-violet-200/50 blur-3xl" />
+
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.05]"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(45deg, #4f46e5 0, #4f46e5 2px, transparent 2px, transparent 28px)",
+        }}
+      />
 
       <div className="relative mx-auto max-w-5xl px-4 py-14">
         <div className="flex flex-col items-center text-center">
