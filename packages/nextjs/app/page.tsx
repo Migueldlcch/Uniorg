@@ -5,10 +5,21 @@ import Link from "next/link";
 import { useAccount } from "wagmi";
 import {
   useScaffoldReadContract,
-  useScaffoldWriteContract,
   useScaffoldWatchContractEvent,
+  useScaffoldWriteContract,
 } from "~~/hooks/scaffold-eth";
 import { notification } from "~~/utils/scaffold-eth";
+
+type Org = { id: bigint; name: string; issuer: string; createdAt: bigint };
+type Cred = {
+  id: bigint;
+  orgId: bigint;
+  recipient: string;
+  metadataURI: string;
+  issuer: string;
+  issuedAt: bigint;
+  revoked: boolean;
+};
 
 const truncate = (s: string) => (s.length > 12 ? `${s.slice(0, 6)}...${s.slice(-4)}` : s);
 const fmtDate = (ts: bigint) =>
@@ -40,22 +51,20 @@ function OrgCard({ orgId }: { orgId: bigint }) {
     args: [orgId],
   });
   if (!data) return <div className="h-28 animate-pulse rounded-2xl bg-white/70" />;
-  const [id, name, issuer, createdAt] = data as [bigint, string, string, bigint];
+  const org = data as Org;
   return (
     <div className="rounded-2xl border border-indigo-100 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
       <div className="flex items-start justify-between gap-2">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-indigo-500">
-            Organización #{id.toString()}
+            Organización #{org.id.toString()}
           </p>
-          <h3 className="mt-1 text-lg font-bold text-gray-900">{name}</h3>
+          <h3 className="mt-1 text-lg font-bold text-gray-900">{org.name}</h3>
         </div>
-        <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">
-          🏛️ Emisor
-        </span>
+        <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">🏛️ Emisor</span>
       </div>
       <p className="mt-3 text-xs text-gray-500">
-        <span className="font-mono">{truncate(issuer)}</span> · Creada el {fmtDate(createdAt)}
+        <span className="font-mono">{truncate(org.issuer)}</span> · Creada el {fmtDate(org.createdAt)}
       </p>
     </div>
   );
@@ -63,7 +72,7 @@ function OrgCard({ orgId }: { orgId: bigint }) {
 
 function CredCard({ credId, onRevoke }: { credId: bigint; onRevoke: (id: bigint) => void }) {
   const [expanded, setExpanded] = useState(false);
-  const { data: credData } = useScaffoldReadContract({
+  const { data: cred } = useScaffoldReadContract({
     contractName: "UniOrg",
     functionName: "getCredential",
     args: [credId],
@@ -73,27 +82,15 @@ function CredCard({ credId, onRevoke }: { credId: bigint; onRevoke: (id: bigint)
     functionName: "verifyCredential",
     args: [credId],
   });
-  const { data: orgData } = useScaffoldReadContract({
+  const { data: org } = useScaffoldReadContract({
     contractName: "UniOrg",
     functionName: "getOrganization",
-    args: credData ? [(credData as [bigint, bigint])[1]] : undefined,
+    args: [cred ? cred.orgId : undefined],
   });
 
-  if (!credData || !orgData || isValid === undefined) {
+  if (!cred || !org || isValid === undefined) {
     return <div className="h-24 animate-pulse rounded-2xl bg-white/70" />;
   }
-
-  const [id, , recipient, metadataURI, issuer, issuedAt] = credData as [
-    bigint,
-    bigint,
-    string,
-    string,
-    string,
-    bigint,
-    boolean,
-  ];
-  const revoked = (credData as [bigint, bigint, string, string, string, bigint, boolean])[6];
-  const orgName = (orgData as [bigint, string])[1];
 
   return (
     <div className="overflow-hidden rounded-2xl border border-indigo-100 bg-white shadow-sm">
@@ -104,16 +101,17 @@ function CredCard({ credId, onRevoke }: { credId: bigint; onRevoke: (id: bigint)
         <div>
           <div className="flex flex-wrap items-center gap-2">
             <span
-              className={`rounded-full px-3 py-1 text-xs font-bold ${isValid ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"
-                }`}
+              className={`rounded-full px-3 py-1 text-xs font-bold ${
+                isValid ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"
+              }`}
             >
               {isValid ? "✅ Válida" : "❌ Revocada"}
             </span>
-            <span className="text-xs font-medium text-gray-400">Credencial #{id.toString()}</span>
+            <span className="text-xs font-medium text-gray-400">Credencial #{cred.id.toString()}</span>
           </div>
-          <h4 className="mt-2 text-base font-bold text-gray-900">{orgName}</h4>
+          <h4 className="mt-2 text-base font-bold text-gray-900">{org.name}</h4>
           <p className="mt-1 text-xs text-gray-500">
-            Para <span className="font-mono">{truncate(recipient)}</span> · {fmtDate(issuedAt)}
+            Para <span className="font-mono">{truncate(cred.recipient)}</span> · {fmtDate(cred.issuedAt)}
           </p>
         </div>
         <span className="text-xl text-indigo-400">{expanded ? "−" : "+"}</span>
@@ -123,24 +121,24 @@ function CredCard({ credId, onRevoke }: { credId: bigint; onRevoke: (id: bigint)
         <div className="space-y-3 border-t border-indigo-50 bg-indigo-50/30 px-5 py-4 text-sm">
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">Issuer</p>
-            <p className="font-mono text-xs text-gray-700">{issuer}</p>
+            <p className="font-mono text-xs text-gray-700">{cred.issuer}</p>
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">Metadata (IPFS)</p>
-            <p className="font-mono text-xs break-all text-gray-700">{metadataURI}</p>
+            <p className="font-mono text-xs break-all text-gray-700">{cred.metadataURI}</p>
           </div>
           <div className="flex flex-wrap items-center gap-3 pt-1">
             <a
-              href={`${ARBISCAN}${issuer}`}
+              href={`${ARBISCAN}${cred.issuer}`}
               target="_blank"
               rel="noreferrer"
               className="text-xs font-semibold text-indigo-600 hover:underline"
             >
               Ver en Arbiscan ↗
             </a>
-            {!revoked && (
+            {!cred.revoked && (
               <button
-                onClick={() => onRevoke(id)}
+                onClick={() => onRevoke(cred.id)}
                 className="ml-auto rounded-lg bg-rose-600 px-3 py-1.5 text-xs font-semibold text-white transition-colors hover:bg-rose-700"
               >
                 Revocar
@@ -157,7 +155,7 @@ export default function Home() {
   const { address, isConnected } = useAccount();
   const [orgName, setOrgName] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
-  const refresh = () => setRefreshKey((k) => k + 1);
+  const refresh = () => setRefreshKey(k => k + 1);
 
   const { data: issuerOrgIds } = useScaffoldReadContract({
     contractName: "UniOrg",
@@ -176,12 +174,12 @@ export default function Home() {
   useScaffoldWatchContractEvent({
     contractName: "UniOrg",
     eventName: "CredentialIssued",
-    listener: () => refresh(),
+    onLogs: () => refresh(),
   });
   useScaffoldWatchContractEvent({
     contractName: "UniOrg",
     eventName: "OrganizationCreated",
-    listener: () => refresh(),
+    onLogs: () => refresh(),
   });
 
   const handleCreate = async () => {
@@ -218,8 +216,8 @@ export default function Home() {
             Títulos universitarios <span className="text-amber-300">verificables</span> en segundos
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg text-indigo-100">
-            Las universidades emiten en una transacción. Cualquier empleador verifica gratis, sin wallet y sin
-            contactar a nadie. La verdad vive en Arbitrum, no en un papel.
+            Las universidades emiten en una transacción. Cualquier empleador verifica gratis, sin wallet y sin contactar
+            a nadie. La verdad vive en Arbitrum, no en un papel.
           </p>
           <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
             <Link
@@ -243,8 +241,8 @@ export default function Home() {
     );
   }
 
-  const orgCount = (issuerOrgIds as bigint[] | undefined)?.length ?? 0;
-  const credCount = (recipientCredIds as bigint[] | undefined)?.length ?? 0;
+  const orgIds = issuerOrgIds ?? [];
+  const credIds = recipientCredIds ?? [];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-indigo-50 to-white py-10 px-4">
@@ -273,8 +271,8 @@ export default function Home() {
         </header>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-          <StatCard icon="🏛️" label="Mis organizaciones" value={String(orgCount)} />
-          <StatCard icon="🎓" label="Credenciales recibidas" value={String(credCount)} />
+          <StatCard icon="🏛️" label="Mis organizaciones" value={String(orgIds.length)} />
+          <StatCard icon="🎓" label="Credenciales recibidas" value={String(credIds.length)} />
           <StatCard icon="⛓️" label="Red" value="Arbitrum Sepolia" />
         </div>
 
@@ -287,7 +285,7 @@ export default function Home() {
             <input
               type="text"
               value={orgName}
-              onChange={(e) => setOrgName(e.target.value)}
+              onChange={e => setOrgName(e.target.value)}
               placeholder="Ej: Universidad Nacional de Ingeniería"
               className="flex-1 rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:border-indigo-400 focus:outline-none"
             />
@@ -302,9 +300,9 @@ export default function Home() {
 
         <section className="space-y-3">
           <h2 className="text-lg font-bold text-gray-900">Mis organizaciones</h2>
-          {orgCount > 0 ? (
+          {orgIds.length > 0 ? (
             <div className="grid gap-3 sm:grid-cols-2">
-              {(issuerOrgIds as bigint[]).map((id) => (
+              {orgIds.map(id => (
                 <OrgCard key={`${id.toString()}-${refreshKey}`} orgId={id} />
               ))}
             </div>
@@ -317,9 +315,9 @@ export default function Home() {
 
         <section className="space-y-3">
           <h2 className="text-lg font-bold text-gray-900">Credenciales recibidas</h2>
-          {credCount > 0 ? (
+          {credIds.length > 0 ? (
             <div className="space-y-3">
-              {(recipientCredIds as bigint[]).map((id) => (
+              {credIds.map(id => (
                 <CredCard key={`${id.toString()}-${refreshKey}`} credId={id} onRevoke={handleRevoke} />
               ))}
             </div>
@@ -331,8 +329,8 @@ export default function Home() {
         </section>
 
         <section className="rounded-2xl bg-indigo-600 p-5 text-sm text-indigo-50 shadow-md">
-          <strong>🔍 Transparencia total:</strong> cada emisión, revocación y verificación queda en Arbitrum
-          Sepolia. Audítalo en{" "}
+          <strong>🔍 Transparencia total:</strong> cada emisión, revocación y verificación queda en Arbitrum Sepolia.
+          Audítalo en{" "}
           <a href={ARBISCAN} target="_blank" rel="noreferrer" className="font-bold underline">
             Arbiscan ↗
           </a>
