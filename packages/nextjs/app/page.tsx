@@ -120,6 +120,20 @@ function CredCard({ credId, onRevoke }: { credId: bigint; onRevoke: (id: bigint)
             <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">Metadata (IPFS)</p>
             <p className="font-mono text-xs break-all text-gray-700">{cred.metadataURI}</p>
           </div>
+          <div>
+            <a
+              href={
+                cred.metadataURI.startsWith("ipfs://")
+                  ? `https://ipfs.io/ipfs/${cred.metadataURI.slice(7)}`
+                  : cred.metadataURI
+              }
+              target="_blank"
+              rel="noreferrer"
+              className="text-xs font-bold text-indigo-600 hover:underline"
+            >
+              📄 Ver documento original ↗
+            </a>
+          </div>
           <div className="flex flex-wrap items-center gap-3 pt-1">
             <a
               href={`${ARBISCAN}${cred.issuer}`}

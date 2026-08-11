@@ -93,6 +93,18 @@ export default function VerifyCredential() {
                                             <span className="font-mono text-xs break-all">{cred.metadataURI}</span>
                                         </p>
                                         <a
+                                            href={
+                                                cred.metadataURI.startsWith("ipfs://")
+                                                    ? `https://ipfs.io/ipfs/${cred.metadataURI.slice(7)}`
+                                                    : cred.metadataURI
+                                            }
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="inline-block text-xs font-bold text-emerald-700 hover:underline"
+                                        >
+                                            📄 Ver documento original ↗
+                                        </a>
+                                        <a
                                             href="https://sepolia.arbiscan.io/address/0xcd2b62013948f6ddd0f64aa19e1287164a06d4ff"
                                             target="_blank"
                                             rel="noreferrer"
