@@ -66,11 +66,11 @@ function OrgCard({ orgId }: { orgId: bigint }) {
         <span className="font-mono">{truncate(org.issuer)}</span> · Creada el {fmtDate(org.createdAt)}
       </p>
       <div className="mt-4 flex flex-wrap gap-2 border-t border-indigo-50 pt-3">
-        {["📁 Proyectos", "👥 Afiliados", "🎖️ Roles", "📄 Documentos", "🖼️ Galería"].map((label) => (
+        {["Proyectos", "Afiliados", "Roles", "Documentos", "Galería"].map((label) => (
           <button
             key={label}
             onClick={() => notification.info(`${label} · disponible en fase beta 🚧`)}
-            className="rounded-lg border border-indigo-100 bg-indigo-50/60 px-3 py-1.5 text-xs font-semibold text-indigo-600 transition hover:bg-indigo-100"
+            className="rounded-lg border border-indigo-100 bg-indigo-50/60 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-indigo-600 transition hover:bg-indigo-100"
           >
             {label}
           </button>
