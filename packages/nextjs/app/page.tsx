@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import { useAccount } from "wagmi";
@@ -197,34 +198,78 @@ export default function Home() {
 
   if (!isConnected) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-indigo-600 via-violet-600 to-purple-700 p-6 text-white">
-        <div className="max-w-3xl text-center">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-widest text-indigo-200">
-            Infraestructura de credenciales en Arbitrum
+      <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-indigo-50 via-white to-violet-50">
+        <div className="pointer-events-none absolute -left-24 -top-24 h-96 w-96 rounded-full bg-indigo-200/50 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-violet-200/50 blur-3xl" />
+
+        <div className="relative mx-auto flex max-w-5xl flex-col items-center px-4 py-16 text-center">
+          <Image src="/uniorg-logo.png" alt="UniOrg" width={96} height={96} className="rounded-3xl shadow-lg" />
+          <p className="mt-6 text-xs font-bold uppercase tracking-[0.3em] text-indigo-500">
+            Infraestructura de credenciales · Arbitrum
           </p>
-          <h1 className="text-5xl font-extrabold leading-tight sm:text-6xl">
-            Títulos universitarios <span className="text-amber-300">verificables</span> en segundos
+          <h1 className="mt-4 max-w-3xl text-5xl font-extrabold leading-tight text-gray-900 sm:text-6xl">
+            La verdad de tus títulos,{" "}
+            <span className="bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">
+              en la cadena
+            </span>
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-lg text-indigo-100">
-            Las universidades emiten en una transacción. Cualquier empleador verifica gratis, sin wallet y sin contactar
-            a nadie. La verdad vive en Arbitrum, no en un papel.
+          <p className="mt-5 max-w-xl text-lg text-gray-600">
+            Las universidades emiten en una transacción. Cualquier persona verifica en segundos, sin wallet y sin
+            pedir permiso. Identidad, liderazgo, impacto.
           </p>
-          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/verify"
-              className="rounded-xl bg-white px-8 py-3 text-lg font-bold text-indigo-700 shadow-lg transition-transform hover:scale-105"
+              className="rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-8 py-3 text-lg font-bold text-white shadow-lg transition hover:brightness-110"
             >
               🔍 Verificar credencial
             </Link>
             <Link
               href="/issue"
-              className="rounded-xl border-2 border-white/40 px-8 py-3 text-lg font-bold text-white transition-colors hover:bg-white/10"
+              className="rounded-xl border-2 border-indigo-200 bg-white px-8 py-3 text-lg font-bold text-indigo-700 transition hover:border-indigo-400"
             >
               🎓 Emitir credencial
             </Link>
           </div>
-          <p className="mt-8 text-xs text-indigo-200">
-            Contrato auditado públicamente en Arbitrum Sepolia · Conecta tu wallet para gestionar organizaciones
+
+          <div className="mt-14 grid w-full gap-4 sm:grid-cols-3">
+            <div className="rounded-2xl border border-indigo-100 bg-white/80 p-6 text-left shadow-sm backdrop-blur">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-indigo-600 text-sm font-bold text-white">
+                1
+              </span>
+              <h3 className="mt-3 font-bold text-gray-900">La universidad emite</h3>
+              <p className="mt-1 text-sm text-gray-500">
+                Una transacción firma la credencial con la identidad de la organización.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-indigo-100 bg-white/80 p-6 text-left shadow-sm backdrop-blur">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-violet-600 text-sm font-bold text-white">
+                2
+              </span>
+              <h3 className="mt-3 font-bold text-gray-900">Cualquiera verifica</h3>
+              <p className="mt-1 text-sm text-gray-500">Sin cuenta, sin wallet: un ID y diez segundos de verdad.</p>
+            </div>
+            <div className="rounded-2xl border border-indigo-100 bg-white/80 p-6 text-left shadow-sm backdrop-blur">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-purple-600 text-sm font-bold text-white">
+                3
+              </span>
+              <h3 className="mt-3 font-bold text-gray-900">Arbitrum garantiza</h3>
+              <p className="mt-1 text-sm text-gray-500">
+                Inmutable, revocable en público y auditable por siempre en Arbiscan.
+              </p>
+            </div>
+          </div>
+
+          <p className="mt-10 text-xs text-gray-400">
+            Contrato público en Arbitrum Sepolia:{" "}
+            <a
+              href="https://sepolia.arbiscan.io/address/0xcd2b62013948f6ddd0f64aa19e1287164a06d4ff"
+              target="_blank"
+              rel="noreferrer"
+              className="font-mono font-semibold text-indigo-500 hover:underline"
+            >
+              0xcd2b…d4ff ↗
+            </a>
           </p>
         </div>
       </div>
