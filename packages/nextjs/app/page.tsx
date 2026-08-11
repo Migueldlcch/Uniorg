@@ -11,15 +11,6 @@ import {
 import { notification } from "~~/utils/scaffold-eth";
 
 type Org = { id: bigint; name: string; issuer: string; createdAt: bigint };
-type Cred = {
-  id: bigint;
-  orgId: bigint;
-  recipient: string;
-  metadataURI: string;
-  issuer: string;
-  issuedAt: bigint;
-  revoked: boolean;
-};
 
 const truncate = (s: string) => (s.length > 12 ? `${s.slice(0, 6)}...${s.slice(-4)}` : s);
 const fmtDate = (ts: bigint) =>
@@ -322,7 +313,7 @@ export default function Home() {
             </div>
           ) : (
             <p className="rounded-2xl border border-dashed border-indigo-200 p-6 text-center text-sm text-gray-500">
-              Aún no recibes credenciales. Emite una desde "+ Emitir". 🎓
+              Aún no recibes credenciales. Emite la primera con el botón + Emitir de arriba. 🎓
             </p>
           )}
         </section>
